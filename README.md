@@ -21,7 +21,4 @@ Remove do package.json:
 
 Atentar a pasta .vscode criada.
 
-```console
-npm install --save-dev pre-commit
-```
 Configura o pre-commit no package.json
