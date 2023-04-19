@@ -3,17 +3,19 @@ npm install --save-dev @typescript-eslint/eslint-plugin @typescript-eslint/parse
 ```
 
 ```json
-{ 
+{
   "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
-  "eslint.validate": [ "javascript" ]
+  "eslint.validate": ["javascript"]
 }
 ```
 
 Criar:
-  - .eslintrc.js
-  - .prettierrc.js
+
+- .eslintrc.js
+- .prettierrc.js
 
 Remove do package.json:
+
 ```json
   "private": true,
   "type": "module",
