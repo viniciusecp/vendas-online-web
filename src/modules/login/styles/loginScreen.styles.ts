@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const { Title, Text } = Typography;
 
 export const ContainerLoginScreen = styled.div`
-  width: 100%;
+width: 100%;
   display: flex;
   justify-content: right;
 `;
