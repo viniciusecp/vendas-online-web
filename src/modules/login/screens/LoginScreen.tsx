@@ -1,9 +1,10 @@
-import axios from 'axios';
 import { useState } from 'react';
 
-import Button from '../../../shared/buttons/button/Button';
-import SVGLogo from '../../../shared/icons/SVGHome';
-import Input from '../../../shared/inputs/input/Input';
+import Button from '../../../shared/components/buttons/button/Button';
+import SVGLogo from '../../../shared/components/icons/SVGHome';
+import Input from '../../../shared/components/inputs/input/Input';
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
+import { useRequests } from '../../../shared/hooks/useRequests';
 import {
   BackgroundImage,
   ContainerLogin,
@@ -13,25 +14,19 @@ import {
 } from '../styles/loginScreen.styles';
 
 const LoginScreen = () => {
+  const { loading, postResquest } = useRequests();
+  const { accessToken, setAccessToken } = useGlobalContext();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    axios({
-      method: 'post',
-      url: 'http://localhost:8080/auth',
-      data: {
-        email,
-        password,
-      },
-    })
-      .then((result) => {
-        alert('Fez login');
-        return result.data;
-      })
-      .catch(() => {
-        alert('Usuário ou senha inválido');
-      });
+  const handleLogin = () => {
+    setAccessToken('asdf');
+
+    postResquest('http://localhost:8080/auth', {
+      email,
+      password,
+    });
   };
 
   return (
@@ -42,7 +37,7 @@ const LoginScreen = () => {
         <LimitedContainer>
           <SVGLogo />
 
-          <TitleLogin>LOGIN</TitleLogin>
+          <TitleLogin>LOGIN {accessToken}</TitleLogin>
 
           <Input
             title="USUÁRIO"
@@ -59,7 +54,12 @@ const LoginScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <Button type="primary" margin="64px 0 16px" onClick={handleLogin}>
+          <Button
+            loading={loading}
+            type="primary"
+            margin="64px 0 16px"
+            onClick={handleLogin}
+          >
             ENTRAR
           </Button>
         </LimitedContainer>
