@@ -1,7 +1,7 @@
 import { Typography } from 'antd';
 import styled from 'styled-components';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export const ContainerLoginScreen = styled.div`
   width: 100%;
