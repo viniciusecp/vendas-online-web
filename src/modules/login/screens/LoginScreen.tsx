@@ -16,21 +16,16 @@ import { UserType } from '../types/UserType';
 
 const LoginScreen = () => {
   const { loading, postResquest } = useRequests();
-  const { accessToken, setAccessToken } = useGlobalContext();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    const user = await postResquest<UserType>('http://localhost:8080/auth', {
+  const handleLogin = () => {
+    postResquest<UserType>('http://localhost:8080/auth', {
       email,
       password,
     });
-
-    setAccessToken(user?.accessToken || '');
   };
-
-  console.log('accessToken', accessToken);
 
   return (
     <ContainerLoginScreen>
@@ -40,7 +35,7 @@ const LoginScreen = () => {
         <LimitedContainer>
           <SVGLogo />
 
-          <TitleLogin>LOGIN {accessToken}</TitleLogin>
+          <TitleLogin>LOGIN</TitleLogin>
 
           <Input
             title="USUÁRIO"
