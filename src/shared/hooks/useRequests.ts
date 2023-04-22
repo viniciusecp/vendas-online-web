@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +6,10 @@ import { ProductRoutesEnum } from '../../modules/product/routes';
 import { ERROR_INVALID_PASSWORD } from '../constants/errorsStatus';
 import { URL_AUTH } from '../constants/urls';
 import { setAuthorizationToken } from '../functions/connection/auth';
-import { connectionAPIPost } from '../functions/connection/connectionAPI';
+import ConnectionAPI, {
+  connectionAPIPost,
+  MethodType,
+} from '../functions/connection/connectionAPI';
 import { useGlobalContext } from './useGlobalContext';
 
 export const useRequests = () => {
@@ -15,22 +17,28 @@ export const useRequests = () => {
   const { setNotification, setUser } = useGlobalContext();
   const navigate = useNavigate();
 
-  const getRequest = async (url: string) => {
+  const request = async <T>(
+    url: string,
+    method: MethodType,
+    saveGlobal?: (object: T) => void,
+    body?: unknown,
+  ): Promise<T | undefined> => {
     setLoading(true);
 
-    return await axios({
-      method: 'get',
-      url,
-    })
+    const returnObject = await ConnectionAPI.connect<T>(url, method, body)
       .then((result) => {
-        return result.data;
+        saveGlobal?.(result);
+        return result;
       })
-      .catch(() => {
-        alert('Erro');
+      .catch((error) => {
+        setNotification(error.message, 'error');
+        return undefined;
       })
       .finally(() => {
         setLoading(false);
       });
+
+    return returnObject;
   };
 
   const postRequest = async <T>(
@@ -70,5 +78,5 @@ export const useRequests = () => {
       });
   };
 
-  return { loading, getRequest, postRequest, authRequest };
+  return { loading, request, postRequest, authRequest };
 };
