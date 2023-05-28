@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction } from 'react-router-dom';
 
 import { AuthType } from '../../modules/login/types/AuthType';
 import { ProductRoutesEnum } from '../../modules/product/routes';
@@ -40,9 +40,7 @@ export const useRequests = () => {
     return returnObject;
   };
 
-  const authRequest = async (body: unknown) => {
-    const navigate = useNavigate();
-
+  const authRequest = async (navigate: NavigateFunction, body: unknown) => {
     setLoading(true);
 
     await connectionAPIPost<AuthType>(URL_AUTH, body)
